@@ -7,7 +7,7 @@ public class Member {
 	private Integer received;
 	private Integer attacksWon;
 	private Integer th;
-	private Integer warPreference;
+	private String warPreference;
 	private String role;
 	private Integer exp;
 	private Integer trophies;
@@ -15,7 +15,7 @@ public class Member {
 	private Integer clanRank;
 	private String tag;
 
-	public Member(String name, Integer donated, Integer received, Integer attacksWon, Integer th, Integer warPreference, String role, Integer exp, Integer trophies, Integer warStars, Integer clanRank, String tag) {
+	public Member(String name, Integer donated, Integer received, Integer attacksWon, Integer th, String warPreference, String role, Integer exp, Integer trophies, Integer warStars, Integer clanRank, String tag) {
 		this.name = name;
 		this.donated = donated;
 		this.received = received;
@@ -70,11 +70,11 @@ public class Member {
 		this.th = th;
 	}
 
-	public Integer getWarPreference() {
+	public String getWarPreference() {
 		return warPreference;
 	}
 
-	public void setWarPreference(Integer warPreference) {
+	public void setWarPreference(String warPreference) {
 		this.warPreference = warPreference;
 	}
 
@@ -128,6 +128,17 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return name + " " + donated + " " + received + " " + attacksWon + " " + th + " " + warPreference + " " + role + " " + exp + " " + trophies + " " + warStars + " " + clanRank + " " + tag;
+		return name + "\t" +
+				donated + "\t" +
+				received + "\t" +
+				attacksWon + "\t" +
+				th + "\t" +
+				warPreference + "\t" +
+				role + "\t" +
+				exp + "\t" +
+				trophies + "\t" +
+				warStars + "\t" +
+				clanRank + "\t" +
+				tag;
 	}
 }

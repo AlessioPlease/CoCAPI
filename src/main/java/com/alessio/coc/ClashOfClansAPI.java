@@ -51,7 +51,7 @@ public class ClashOfClansAPI {
 					items.getJSONObject(i).getInt("donationsReceived"),
 					Integer.valueOf(otherInfo.get("attackWins")),
 					Integer.valueOf(otherInfo.get("townHallLevel")),
-					Integer.valueOf(otherInfo.get("warPreference")),
+					otherInfo.get("warPreference"),
 					items.getJSONObject(i).getString("role"),
 					items.getJSONObject(i).getInt("expLevel"),
 					items.getJSONObject(i).getInt("trophies"),
@@ -59,22 +59,7 @@ public class ClashOfClansAPI {
 					items.getJSONObject(i).getInt("clanRank"),
 					items.getJSONObject(i).getString("tag")
 			);
-
 			membersInfo.add(member);
-/*
-			membersInfo.get(i).add(items.getJSONObject(i).getString("name"));
-			membersInfo.get(i).add(Integer.toString(items.getJSONObject(i).getInt("donations")));
-			membersInfo.get(i).add(Integer.toString(items.getJSONObject(i).getInt("donationsReceived")));
-			membersInfo.get(i).add(otherInfo.get("attackWins"));
-			membersInfo.get(i).add(otherInfo.get("townHallLevel"));
-			membersInfo.get(i).add(otherInfo.get("warPreference"));
-			membersInfo.get(i).add(otherInfo.get("warStars"));
-			membersInfo.get(i).add(Integer.toString(items.getJSONObject(i).getInt("expLevel")));
-			membersInfo.get(i).add(Integer.toString(items.getJSONObject(i).getInt("trophies")));
-			membersInfo.get(i).add(items.getJSONObject(i).getString("role"));
-			membersInfo.get(i).add(Integer.toString(items.getJSONObject(i).getInt("clanRank")));
-			membersInfo.get(i).add(items.getJSONObject(i).getString("tag"));
-*/
 		}
 		return membersInfo;
 	}

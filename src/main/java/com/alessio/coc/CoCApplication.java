@@ -13,14 +13,12 @@ public class CoCApplication {
 
 		ClashOfClansAPI coc = new ClashOfClansAPI();
 		printMatrixList(coc.getClanMembersInfo());
-
-		//System.out.println(File.readFromFile("ClanMembersInfo.txt"));
 	}
 
 	private static void printMatrixList(ArrayList<Member> infos) {
 
 		for (Member row: infos) {
-			row.toString();
+			System.out.printf(row.toString() + "\n");
 		}
 	}
 
