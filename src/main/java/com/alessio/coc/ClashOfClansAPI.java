@@ -39,7 +39,7 @@ public class ClashOfClansAPI {
 		JSONArray items = json.getJSONArray("items");
 
 		for (int i = 0; i < items.length(); i++) {
-			HashMap<String, String> otherInfo = requestOtherInfo(items.getJSONObject(i).getString("tag"));
+			HashMap<String, String> otherInfo = extractOtherInfo(requestOtherInfo(items.getJSONObject(i).getString("tag")));
 
 			Member member = new Member(
 					items.getJSONObject(i).getString("name"),
@@ -60,13 +60,12 @@ public class ClashOfClansAPI {
 		return membersInfo;
 	}
 
-	private HashMap<String, String> requestOtherInfo(String dirtyTag) {
+	private String requestOtherInfo(String dirtyTag) {
 		String tag = dirtyTag.replace("#", "");
 		String url = "https://api.clashofclans.com/v1/players/%23" + tag;
 		String method = "GET";
 
-		String response = getResponse(Objects.requireNonNull(buildRequest(url, method)));
-		return extractOtherInfo(response);
+		return getResponse(Objects.requireNonNull(buildRequest(url, method)));
 	}
 
 	private HashMap<String, String> extractOtherInfo(String response) {
@@ -76,12 +75,22 @@ public class ClashOfClansAPI {
 		memberInfo.put("townHallLevel", Integer.toString(json.getInt("townHallLevel")));
 		memberInfo.put("attackWins", Integer.toString(json.getInt("attackWins")));
 		memberInfo.put("warPreference", json.getString("warPreference"));
-		memberInfo.put("warStars", Integer.toString(json.getInt("warStars"))
-		);
+		memberInfo.put("warStars", Integer.toString(json.getInt("warStars")));
 
 		return memberInfo;
 	}
 
+
+	private String requestWarInfo() {
+		String url = "https://api.clashofclans.com/v1/clans/%23" + Constants.getClanTag() + "/currentwar";
+		String method = "GET";
+
+		return getResponse(Objects.requireNonNull(buildRequest(url, method)));
+	}
+
+	private void extractWarInfo(String response) {
+
+	}
 	private HttpURLConnection buildRequest(String urlString, String method) {
 
 		try {
