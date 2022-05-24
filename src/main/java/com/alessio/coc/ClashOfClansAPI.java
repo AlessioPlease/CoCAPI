@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-//		###################################	RICORDATI DI AGGIORNARE IL TOKEN	###################################
+//		###################################	REMEMBER TO UPDATE THE TOKEN	###################################
 //		https://developer.clashofclans.com/#/account
 
 public class ClashOfClansAPI {
@@ -31,7 +31,7 @@ public class ClashOfClansAPI {
 		String method = "GET";
 
 		String response = getResponse(Objects.requireNonNull(buildRequest(url, method)));
-		File.saveToFile(response, ResponseType.ClanMembersInfo);
+//		File.saveToFile(response, DataType.ClanMembersInfo);
 		lastUpdate = Instant.now();
 
 		return response;
@@ -61,6 +61,7 @@ public class ClashOfClansAPI {
 			);
 			membersInfo.add(member);
 		}
+		File.saveToFile(membersInfo, DataType.ClanMembersInfo);
 		return membersInfo;
 	}
 

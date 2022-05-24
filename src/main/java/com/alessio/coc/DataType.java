@@ -1,5 +1,5 @@
 package com.alessio.coc;
 
-public enum ResponseType {
+public enum DataType {
 	ClanMembersInfo
 }

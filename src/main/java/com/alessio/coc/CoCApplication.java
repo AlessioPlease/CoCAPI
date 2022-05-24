@@ -13,6 +13,8 @@ public class CoCApplication {
 
 		ClashOfClansAPI coc = new ClashOfClansAPI();
 		printMatrixList(coc.getClanMembersInfo());
+
+		//printMatrixList(File.readDataFromFile("ClanMembersInfo.txt"));
 	}
 
 	private static void printMatrixList(ArrayList<Member> infos) {

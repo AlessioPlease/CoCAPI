@@ -1,15 +1,16 @@
 package com.alessio.coc;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class File {
 
 	private File() {}
 
-	public static boolean saveToFile(String response, ResponseType responseType) {
+	public static boolean saveToFile(ArrayList<Member> data, DataType dataType) {
 
 		String fileName = "";
-		switch (responseType) {
+		switch (dataType) {
 			case ClanMembersInfo:
 				fileName = "ClanMembersInfo.txt";
 				break;
@@ -22,7 +23,7 @@ public class File {
 			FileOutputStream fos = new FileOutputStream(fileName);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-			oos.writeObject(response);
+			oos.writeObject(data);
 			oos.close();
 
 			return true;
@@ -33,24 +34,23 @@ public class File {
 		}
 	}
 
-	public static String readFromFile(String fileName) {
+	public static ArrayList<Member> readFromFile(String fileName) {
 
 		try {
 			FileInputStream fis = new FileInputStream(fileName);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 
-			String data = (String) ois.readObject();
+			ArrayList<Member> data = (ArrayList<Member>) ois.readObject();
 			ois.close();
 			return data;
 		} catch (IOException e) {
 			System.out.println("Something went wrong while trying to read data from file (IOException)");
 			e.printStackTrace();
-			return "";
+			return new ArrayList<>();
 		} catch (ClassNotFoundException e) {
 			System.out.println("Something went wrong while trying to read data from file (ClassNotFoundException)");
 			e.printStackTrace();
-			return "";
+			return new ArrayList<>();
 		}
-
 	}
 }
