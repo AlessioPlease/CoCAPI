@@ -30,11 +30,7 @@ public class ClashOfClansAPI {
 		String url = "https://api.clashofclans.com/v1/clans/%23" + Constants.getClanTag() + "/members";
 		String method = "GET";
 
-		String response = getResponse(Objects.requireNonNull(buildRequest(url, method)));
-//		File.saveToFile(response, DataType.ClanMembersInfo);
-		lastUpdate = Instant.now();
-
-		return response;
+		return getResponse(Objects.requireNonNull(buildRequest(url, method)));
 	}
 
 	public ArrayList<Member> extractClanMembersInfo(String response) {
@@ -61,7 +57,6 @@ public class ClashOfClansAPI {
 			);
 			membersInfo.add(member);
 		}
-		File.saveToFile(membersInfo, DataType.ClanMembersInfo);
 		return membersInfo;
 	}
 
@@ -132,6 +127,7 @@ public class ClashOfClansAPI {
 
 		if (! updateIsRecent()) {
 			this.clanMembersInfo = extractClanMembersInfo(requestClanMembersInfo());
+			lastUpdate = Instant.now();
 		}
 		return this.clanMembersInfo;
 	}
