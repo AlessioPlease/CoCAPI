@@ -20,8 +20,11 @@ import java.util.*;
 //		https://developer.clashofclans.com/#/account
 
 public class ClashOfClansAPI {
+
 	private ArrayList<Member> clanMembersInfo;
-	private Instant lastUpdate = Instant.parse("2000-01-01T10:15:30.00Z");
+	private War warInfo;
+	private Instant lastClanMembersUpdate = Instant.parse("2000-01-01T10:15:30.00Z");
+	private Instant warInfoUpdate = Instant.parse("2000-01-01T10:15:30.00Z");
 
 
 	public ClashOfClansAPI() {
@@ -95,14 +98,21 @@ public class ClashOfClansAPI {
 		JSONArray ourClanMembers = ourClan.getJSONArray("members");
 		JSONObject opponentClan = json.getJSONObject("opponent");
 		JSONArray opponentClanMembers = ourClan.getJSONArray("members");
+		HashMap<String, Integer> mappedOpponents = mapOpponents(opponentClanMembers);
 
 		ArrayList<WarMember> members = new ArrayList<>();
 
 		for (int i = 0; i < ourClanMembers.length(); i++) {
-
 			JSONObject rawMember = ourClanMembers.getJSONObject(i);
-			JSONArray rawAttacks = rawMember.getJSONArray("attacks");
-			ArrayList<Attack> attacks = extractAttacks(rawAttacks);
+
+			JSONArray rawAttacks = null;
+			if (rawMember.has("attacks")) {
+				rawAttacks = rawMember.getJSONArray("attacks");
+			}
+			ArrayList<Attack> attacks = null;
+			if (rawAttacks != null) {
+				attacks = extractAttacks(rawAttacks, mappedOpponents);
+			}
 
 			WarMember member = new WarMember(
 					ourClanMembers.getJSONObject(i).getString("name"),
@@ -112,19 +122,17 @@ public class ClashOfClansAPI {
 
 			members.add(member);
 		}
-		War war = new War(
+
+		return new War(
 				json.getInt("teamSize"),
 				ourClan.getInt("attacks"),
 				ourClan.getInt("stars"),
 				opponentClan.getInt("stars"),
 				ourClan.getDouble("destructionPercentage"),
 				members);
-
-		return war;
 	}
 
-	private ArrayList<Attack> extractAttacks(JSONArray rawAttacks) {
-
+	private ArrayList<Attack> extractAttacks(JSONArray rawAttacks, HashMap<String, Integer> opponentMembers) {
 		ArrayList<Attack> attacks = new ArrayList<>();
 
 		for (int i = 0; i < rawAttacks.length(); i++) {
@@ -132,73 +140,29 @@ public class ClashOfClansAPI {
 
 			Attack attack = new Attack(
 					rawAttack.getInt("order"),
-					rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
+					opponentMembers.get(rawAttack.getString("defenderTag")),
 					rawAttack.getInt("stars"),
 					rawAttack.getDouble("destructionPercentage"));
 			attacks.add(attack);
 		}
-		return orderAttacks(attacks);
-/*
-		if (rawAttacks.length() == 1) {
-			JSONObject rawAttack = rawAttacks.getJSONObject(0);
-
-			Attack attack = new Attack(
-					rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
-					rawAttack.getInt("stars"),
-					rawAttack.getDouble("destructionPercentage"));
-			attacks.add(attack);
-			return attacks;
-		} else if (rawAttacks.length() == 2) {
-			JSONObject rawAttack = rawAttacks.getJSONObject(0);
-
-			if (rawAttack.getInt("order") == 1) {
-				Attack attack = new Attack(
-						rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
-						rawAttack.getInt("stars"),
-						rawAttack.getDouble("destructionPercentage"));
-				attacks.add(attack);
-
-				rawAttack = rawAttacks.getJSONObject(1);
-				attack = new Attack(
-						rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
-						rawAttack.getInt("stars"),
-						rawAttack.getDouble("destructionPercentage"));
-				attacks.add(attack);
-			} else {
-				rawAttack = rawAttacks.getJSONObject(1);
-				Attack attack = new Attack(
-						rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
-						rawAttack.getInt("stars"),
-						rawAttack.getDouble("destructionPercentage"));
-				attacks.add(attack);
-
-				rawAttack = rawAttacks.getJSONObject(0);
-				attack = new Attack(
-						rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
-						rawAttack.getInt("stars"),
-						rawAttack.getDouble("destructionPercentage"));
-				attacks.add(attack);
-			}
-			return attacks;
-		}
- */
+		return attacks.size() > 1 ? orderAttacks(attacks) : attacks;
 	}
 
 	private ArrayList<Attack> orderAttacks(ArrayList<Attack> attacks) {
-
 		attacks.sort((a1, a2) -> a1.getOrder() > a2.getOrder() ? + 1 : - 1);
 		return attacks;
 	}
 
-	private Integer getOpponentPosition(JSONArray opponentMembers, String opponentTag) {
-		return null;
-	}
+	private HashMap<String, Integer> mapOpponents(JSONArray opponentMembers) {
+		HashMap<String, Integer> opponentsInfo = new HashMap<>();
 
-	private Map<String, Integer> mapOpponents(String ) {
-
+		for (int i = 0; i < opponentMembers.length(); i++) {
+			JSONObject opponent = opponentMembers.getJSONObject(i);
+			opponentsInfo.put(opponent.getString("tag"), opponent.getInt("mapPosition"));
+		}
+		return opponentsInfo;
 	}
 	private HttpURLConnection buildRequest(String urlString, String method) {
-
 		try {
 			URL url = new URL(urlString);
 			HttpURLConnection req = (HttpURLConnection) url.openConnection();
@@ -213,7 +177,6 @@ public class ClashOfClansAPI {
 	}
 
 	private String getResponse(HttpURLConnection request) {
-
 		StringBuilder content = new StringBuilder();
 
 		try {
@@ -232,19 +195,27 @@ public class ClashOfClansAPI {
 		return content.toString();
 	}
 
-	private boolean updateIsRecent() {
-		Duration timeElapsed = Duration.between(this.lastUpdate, Instant.now());
+	private boolean updateIsRecent(Instant date) {
+		Duration timeElapsed = Duration.between(date, Instant.now());
 
 		return timeElapsed.toMinutes() <= Constants.getUpdateInterval();
 	}
 
 	public ArrayList<Member> getClanMembersInfo() {
 
-		if (! updateIsRecent()) {
+		if (! updateIsRecent(lastClanMembersUpdate)) {
 			this.clanMembersInfo = extractClanMembersInfo(requestClanMembersInfo());
-			lastUpdate = Instant.now();
+			lastClanMembersUpdate = Instant.now();
 		}
 		return this.clanMembersInfo;
 	}
-}
 
+	public War getWarInfo() {
+
+		if (! updateIsRecent(warInfoUpdate)) {
+			this.warInfo = extractWarInfo(requestWarInfo());
+			warInfoUpdate = Instant.now();
+		}
+		return warInfo;
+	}
+}
