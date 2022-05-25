@@ -1,6 +1,7 @@
 package com.alessio.coc;
 
 import com.alessio.coc.models.Member;
+import com.alessio.coc.models.War;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -89,8 +90,10 @@ public class ClashOfClansAPI {
 		return getResponse(Objects.requireNonNull(buildRequest(url, method)));
 	}
 
-	private void extractWarInfo(String response) {
+	private War extractWarInfo(String response) {
 
+
+		return null;
 	}
 	private HttpURLConnection buildRequest(String urlString, String method) {
 
