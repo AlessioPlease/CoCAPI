@@ -1,5 +1,8 @@
 package com.alessio.coc;
 
+import com.alessio.coc.models.DataType;
+import com.alessio.coc.models.Member;
+
 import java.io.*;
 import java.util.ArrayList;
 

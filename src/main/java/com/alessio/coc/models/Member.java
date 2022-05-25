@@ -1,4 +1,4 @@
-package com.alessio.coc;
+package com.alessio.coc.models;
 
 import java.io.Serializable;
 

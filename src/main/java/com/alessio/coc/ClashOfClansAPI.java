@@ -1,5 +1,6 @@
 package com.alessio.coc;
 
+import com.alessio.coc.models.Member;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
