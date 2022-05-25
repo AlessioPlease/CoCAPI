@@ -29,4 +29,12 @@ public class Attack {
 	public Double getDestructionPercentage() {
 		return destructionPercentage;
 	}
+
+	@Override
+	public String toString() {
+		return "Attack " + order + ": " +
+				opponentPosition + "\t" +
+				attackStars + "\t" +
+				destructionPercentage + "%";
+	}
 }

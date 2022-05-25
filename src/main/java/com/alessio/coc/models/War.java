@@ -68,4 +68,14 @@ public class War implements Serializable {
 	public void setMembers(ArrayList<WarMember> members) {
 		this.members = members;
 	}
+
+	@Override
+	public String toString() {
+		return "Number of participants: " + numberOfParticipants + "\n" +
+				"Used attacks: " + usedAttacks + "\n" +
+				"Our stars: " + ourStars + "\n" +
+				"Opponent stars: " + opponentStars + "\n" +
+				"Destruction percentage: " + destructionPercentage + "\n" +
+				"Members: " + members.toString();
+	}
 }

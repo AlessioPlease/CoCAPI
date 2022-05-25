@@ -31,4 +31,14 @@ public class WarMember {
 	public ArrayList<Attack> getAttacks() {
 		return attacks;
 	}
+
+	@Override
+	public String toString() {
+		String attacksToString = attacks != null ? "\t" + attacks : "";
+
+		return "\n" + name + "\t\t" +
+				tag + "\t" +
+				warPosition +
+				attacksToString;
+	}
 }
