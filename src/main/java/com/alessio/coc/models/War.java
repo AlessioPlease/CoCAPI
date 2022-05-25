@@ -9,10 +9,10 @@ public class War implements Serializable {
 	private Integer usedAttacks;
 	private Integer ourStars;
 	private Integer opponentStars;
-	private Integer destructionPercentage;
+	private Double destructionPercentage;
 	private ArrayList<WarMember> members;
 
-	public War(Integer numberOfParticipants, Integer usedAttacks, Integer ourStars, Integer opponentStars, Integer destructionPercentage, ArrayList<WarMember> members) {
+	public War(Integer numberOfParticipants, Integer usedAttacks, Integer ourStars, Integer opponentStars, Double destructionPercentage, ArrayList<WarMember> members) {
 		this.numberOfParticipants = numberOfParticipants;
 		this.usedAttacks = usedAttacks;
 		this.ourStars = ourStars;
@@ -53,11 +53,11 @@ public class War implements Serializable {
 		this.opponentStars = opponentStars;
 	}
 
-	public Integer getDestructionPercentage() {
+	public Double getDestructionPercentage() {
 		return destructionPercentage;
 	}
 
-	public void setDestructionPercentage(Integer destructionPercentage) {
+	public void setDestructionPercentage(Double destructionPercentage) {
 		this.destructionPercentage = destructionPercentage;
 	}
 

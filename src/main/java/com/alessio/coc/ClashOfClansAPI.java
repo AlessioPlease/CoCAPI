@@ -1,7 +1,9 @@
 package com.alessio.coc;
 
+import com.alessio.coc.models.Attack;
 import com.alessio.coc.models.Member;
 import com.alessio.coc.models.War;
+import com.alessio.coc.models.WarMember;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -94,14 +96,106 @@ public class ClashOfClansAPI {
 		JSONObject opponentClan = json.getJSONObject("opponent");
 		JSONArray opponentClanMembers = ourClan.getJSONArray("members");
 
-		/*War war = new War(
-				json.getInt("teamSize"),
-				json.getString("preparationStartTime"),
-				json.getString("startTime"),
-				json.getString("endTime"),
+		ArrayList<WarMember> members = new ArrayList<>();
 
-				);*/
+		for (int i = 0; i < ourClanMembers.length(); i++) {
+
+			JSONObject rawMember = ourClanMembers.getJSONObject(i);
+			JSONArray rawAttacks = rawMember.getJSONArray("attacks");
+			ArrayList<Attack> attacks = extractAttacks(rawAttacks);
+
+			WarMember member = new WarMember(
+					ourClanMembers.getJSONObject(i).getString("name"),
+					ourClanMembers.getJSONObject(i).getString("tag"),
+					ourClanMembers.getJSONObject(i).getInt("mapPosition"),
+					attacks);
+
+			members.add(member);
+		}
+		War war = new War(
+				json.getInt("teamSize"),
+				ourClan.getInt("attacks"),
+				ourClan.getInt("stars"),
+				opponentClan.getInt("stars"),
+				ourClan.getDouble("destructionPercentage"),
+				members);
+
+		return war;
+	}
+
+	private ArrayList<Attack> extractAttacks(JSONArray rawAttacks) {
+
+		ArrayList<Attack> attacks = new ArrayList<>();
+
+		for (int i = 0; i < rawAttacks.length(); i++) {
+			JSONObject rawAttack = rawAttacks.getJSONObject(i);
+
+			Attack attack = new Attack(
+					rawAttack.getInt("order"),
+					rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
+					rawAttack.getInt("stars"),
+					rawAttack.getDouble("destructionPercentage"));
+			attacks.add(attack);
+		}
+		return orderAttacks(attacks);
+/*
+		if (rawAttacks.length() == 1) {
+			JSONObject rawAttack = rawAttacks.getJSONObject(0);
+
+			Attack attack = new Attack(
+					rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
+					rawAttack.getInt("stars"),
+					rawAttack.getDouble("destructionPercentage"));
+			attacks.add(attack);
+			return attacks;
+		} else if (rawAttacks.length() == 2) {
+			JSONObject rawAttack = rawAttacks.getJSONObject(0);
+
+			if (rawAttack.getInt("order") == 1) {
+				Attack attack = new Attack(
+						rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
+						rawAttack.getInt("stars"),
+						rawAttack.getDouble("destructionPercentage"));
+				attacks.add(attack);
+
+				rawAttack = rawAttacks.getJSONObject(1);
+				attack = new Attack(
+						rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
+						rawAttack.getInt("stars"),
+						rawAttack.getDouble("destructionPercentage"));
+				attacks.add(attack);
+			} else {
+				rawAttack = rawAttacks.getJSONObject(1);
+				Attack attack = new Attack(
+						rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
+						rawAttack.getInt("stars"),
+						rawAttack.getDouble("destructionPercentage"));
+				attacks.add(attack);
+
+				rawAttack = rawAttacks.getJSONObject(0);
+				attack = new Attack(
+						rawAttack.getInt("opponentPosition"), //  DA CALCOLARE
+						rawAttack.getInt("stars"),
+						rawAttack.getDouble("destructionPercentage"));
+				attacks.add(attack);
+			}
+			return attacks;
+		}
+ */
+	}
+
+	private ArrayList<Attack> orderAttacks(ArrayList<Attack> attacks) {
+
+		attacks.sort((a1, a2) -> a1.getOrder() > a2.getOrder() ? + 1 : - 1);
+		return attacks;
+	}
+
+	private Integer getOpponentPosition(JSONArray opponentMembers, String opponentTag) {
 		return null;
+	}
+
+	private Map<String, Integer> mapOpponents(String ) {
+
 	}
 	private HttpURLConnection buildRequest(String urlString, String method) {
 
