@@ -12,9 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 //		###################################	REMEMBER TO UPDATE THE TOKEN	###################################
 //		https://developer.clashofclans.com/#/account
@@ -82,7 +80,6 @@ public class ClashOfClansAPI {
 		return memberInfo;
 	}
 
-
 	private String requestWarInfo() {
 		String url = "https://api.clashofclans.com/v1/clans/%23" + Constants.getClanTag() + "/currentwar";
 		String method = "GET";
@@ -91,8 +88,19 @@ public class ClashOfClansAPI {
 	}
 
 	private War extractWarInfo(String response) {
+		JSONObject json = new JSONObject(response);
+		JSONObject ourClan = json.getJSONObject("clan");
+		JSONArray ourClanMembers = ourClan.getJSONArray("members");
+		JSONObject opponentClan = json.getJSONObject("opponent");
+		JSONArray opponentClanMembers = ourClan.getJSONArray("members");
 
+		/*War war = new War(
+				json.getInt("teamSize"),
+				json.getString("preparationStartTime"),
+				json.getString("startTime"),
+				json.getString("endTime"),
 
+				);*/
 		return null;
 	}
 	private HttpURLConnection buildRequest(String urlString, String method) {
