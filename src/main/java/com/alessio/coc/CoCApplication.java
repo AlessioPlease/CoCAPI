@@ -14,22 +14,45 @@ public class CoCApplication {
 		SpringApplication.run(CoCApplication.class, args);
 
 		ClashOfClansAPI coc = new ClashOfClansAPI();
-//		coc.updateClanMembersInfo();
-//		File.saveClanMembersInfoToFile(coc.getClanMembersInfo());
-//		printMatrixList(File.readClanMembersInfoFromFile());
+		ArrayList<Member> clanMembersInfo = File.readClanMembersInfoFromFile();
 		ArrayList<War> wars = File.readWarInfoFromFile();
-		if (wars != null) {
-			System.out.println(File.readWarInfoFromFile().toString());
-		} else {
-			System.out.println("File was empty?");
-		}
 
+		fetchAndSaveWarInfo(coc);
 
-//		printMatrixList(coc.getClanMembersInfo());
-//		System.out.println(coc.getWarInfo().toString());
+		System.out.println(wars);
 	}
 
 
+
+	private static void incorporateNewWar(ArrayList<War> savedWars, War war) {
+		boolean noWarMatched = true;
+
+		for (int i = 0; i < savedWars.size(); i++) {
+			System.out.println("one");
+			if (savedWars.get(i).getPreparationStartTime().equals(war.getPreparationStartTime())) {
+				System.out.println("it hit the spot! so now i'll replace the war");
+				savedWars.set(i, war);
+				noWarMatched = false;
+			}
+		}
+		if (noWarMatched) {
+			savedWars.add(war);
+		}
+	}
+
+	private static ArrayList<Member> fetchAndSaveClanMembersInfo(ClashOfClansAPI coc) {
+		coc.updateClanMembersInfo();
+		File.saveClanMembersInfoToFile(coc.getClanMembersInfo());
+		return coc.getClanMembersInfo();
+	}
+
+	private static War fetchAndSaveWarInfo(ClashOfClansAPI coc) {
+		ArrayList<War> wars = File.readWarInfoFromFile();
+		coc.updateWarInfo();
+		incorporateNewWar(wars, coc.getWarInfo());
+		File.saveWarInfoToFile(wars);
+		return coc.getWarInfo();
+	}
 
 	private static void printMatrixList(ArrayList<Member> infos) {
 		for (Member row: infos) {

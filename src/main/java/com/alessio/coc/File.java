@@ -45,8 +45,7 @@ public class File {
 	public static ArrayList<Member> readClanMembersInfoFromFile() {
 		String fileName = "ClanMembersInfo.txt";
 		if (fileDoesNotExist(fileName)) {
-			System.out.println("File not found. It must be created first!");
-			return null;
+			throw new NullPointerException("No file was found for " + fileName + ". It must be created first!");
 		}
 		try {
 			FileInputStream fis = new FileInputStream(fileName);
@@ -69,8 +68,7 @@ public class File {
 	public static ArrayList<War> readWarInfoFromFile() {
 		String fileName = "WarInfo.txt";
 		if (fileDoesNotExist(fileName)) {
-			System.out.println("File not found. It must be created first!");
-			return null;
+			throw new NullPointerException("No file was found for " + fileName + ". It must be created first!");
 		}
 		try {
 			FileInputStream fis = new FileInputStream(fileName);
