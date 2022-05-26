@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class War implements Serializable {
 
+	private String preparationStartTime;	// Used to tell wars apart
 	private Integer numberOfParticipants;
 	private Integer usedAttacks;
 	private Integer ourStars;
@@ -12,13 +13,22 @@ public class War implements Serializable {
 	private Double destructionPercentage;
 	private ArrayList<WarMember> members;
 
-	public War(Integer numberOfParticipants, Integer usedAttacks, Integer ourStars, Integer opponentStars, Double destructionPercentage, ArrayList<WarMember> members) {
+	public War(String preparationStartTime, Integer numberOfParticipants, Integer usedAttacks, Integer ourStars, Integer opponentStars, Double destructionPercentage, ArrayList<WarMember> members) {
+		this.preparationStartTime = preparationStartTime;
 		this.numberOfParticipants = numberOfParticipants;
 		this.usedAttacks = usedAttacks;
 		this.ourStars = ourStars;
 		this.opponentStars = opponentStars;
 		this.destructionPercentage = destructionPercentage;
 		this.members = members;
+	}
+
+	public String getPreparationStartTime() {
+		return preparationStartTime;
+	}
+
+	public void getPreparationStartTime(String preparationStartTime) {
+		this.preparationStartTime = preparationStartTime;
 	}
 
 	public Integer getNumberOfParticipants() {

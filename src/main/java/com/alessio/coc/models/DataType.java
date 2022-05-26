@@ -1,5 +1,6 @@
 package com.alessio.coc.models;
 
 public enum DataType {
-	ClanMembersInfo
+	ClanMembersInfo,
+	WarInfo
 }

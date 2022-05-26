@@ -28,8 +28,8 @@ public class ClashOfClansAPI {
 
 
 	public ClashOfClansAPI() {
-		updateClanMembersInfo();
-		updateWarInfo();
+//		updateClanMembersInfo();
+//		updateWarInfo();
 	}
 
 	private String requestClanMembersInfo() {
@@ -125,6 +125,7 @@ public class ClashOfClansAPI {
 		}
 
 		return new War(
+				json.getString("preparationStartTime"),
 				json.getInt("teamSize"),
 				ourClan.getInt("attacks"),
 				ourClan.getInt("stars"),
