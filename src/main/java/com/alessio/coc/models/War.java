@@ -81,7 +81,8 @@ public class War implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Number of participants: " + numberOfParticipants + "\n" +
+		return "Start date: " + preparationStartTime + "\n" +
+				"Number of participants: " + numberOfParticipants + "\n" +
 				"Used attacks: " + usedAttacks + "\n" +
 				"Our stars: " + ourStars + "\n" +
 				"Opponent stars: " + opponentStars + "\n" +
