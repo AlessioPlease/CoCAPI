@@ -28,7 +28,8 @@ public class ClashOfClansAPI {
 
 
 	public ClashOfClansAPI() {
-		clanMembersInfo = getClanMembersInfo();
+		updateClanMembersInfo();
+		updateWarInfo();
 	}
 
 	private String requestClanMembersInfo() {
@@ -97,7 +98,7 @@ public class ClashOfClansAPI {
 		JSONObject ourClan = json.getJSONObject("clan");
 		JSONArray ourClanMembers = ourClan.getJSONArray("members");
 		JSONObject opponentClan = json.getJSONObject("opponent");
-		JSONArray opponentClanMembers = ourClan.getJSONArray("members");
+		JSONArray opponentClanMembers = opponentClan.getJSONArray("members");
 		HashMap<String, Integer> mappedOpponents = mapOpponents(opponentClanMembers);
 
 		ArrayList<WarMember> members = new ArrayList<>();
@@ -132,7 +133,7 @@ public class ClashOfClansAPI {
 				members);
 	}
 
-	private ArrayList<Attack> extractAttacks(JSONArray rawAttacks, HashMap<String, Integer> opponentMembers) {
+	private ArrayList<Attack> extractAttacks(JSONArray rawAttacks, HashMap<String, Integer> opponentsPositions) {
 		ArrayList<Attack> attacks = new ArrayList<>();
 
 		for (int i = 0; i < rawAttacks.length(); i++) {
@@ -140,7 +141,7 @@ public class ClashOfClansAPI {
 
 			Attack attack = new Attack(
 					rawAttack.getInt("order"),
-					opponentMembers.get(rawAttack.getString("defenderTag")),
+					opponentsPositions.get(rawAttack.getString("defenderTag")),
 					rawAttack.getInt("stars"),
 					rawAttack.getDouble("destructionPercentage"));
 			attacks.add(attack);
@@ -162,6 +163,7 @@ public class ClashOfClansAPI {
 		}
 		return opponentsInfo;
 	}
+
 	private HttpURLConnection buildRequest(String urlString, String method) {
 		try {
 			URL url = new URL(urlString);
@@ -178,7 +180,6 @@ public class ClashOfClansAPI {
 
 	private String getResponse(HttpURLConnection request) {
 		StringBuilder content = new StringBuilder();
-
 		try {
 			BufferedReader buffer = new BufferedReader(new InputStreamReader(request.getInputStream()));
 			String inputLine;
@@ -195,27 +196,31 @@ public class ClashOfClansAPI {
 		return content.toString();
 	}
 
-	private boolean updateIsRecent(Instant date) {
+	private boolean updateIsOld(Instant date) {
 		Duration timeElapsed = Duration.between(date, Instant.now());
 
-		return timeElapsed.toMinutes() <= Constants.getUpdateInterval();
+		return timeElapsed.toMinutes() > Constants.getUpdateInterval();
 	}
 
 	public ArrayList<Member> getClanMembersInfo() {
-
-		if (! updateIsRecent(lastClanMembersUpdate)) {
-			this.clanMembersInfo = extractClanMembersInfo(requestClanMembersInfo());
-			lastClanMembersUpdate = Instant.now();
-		}
 		return this.clanMembersInfo;
 	}
 
 	public War getWarInfo() {
+		return warInfo;
+	}
 
-		if (! updateIsRecent(warInfoUpdate)) {
+	public void updateClanMembersInfo() {
+		if (updateIsOld(lastClanMembersUpdate)) {
+			this.clanMembersInfo = extractClanMembersInfo(requestClanMembersInfo());
+			lastClanMembersUpdate = Instant.now();
+		}
+	}
+
+	public void updateWarInfo() {
+		if (updateIsOld(warInfoUpdate)) {
 			this.warInfo = extractWarInfo(requestWarInfo());
 			warInfoUpdate = Instant.now();
 		}
-		return warInfo;
 	}
 }

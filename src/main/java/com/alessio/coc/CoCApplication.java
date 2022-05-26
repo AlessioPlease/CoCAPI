@@ -13,8 +13,9 @@ public class CoCApplication {
 		SpringApplication.run(CoCApplication.class, args);
 
 		ClashOfClansAPI coc = new ClashOfClansAPI();
+
 		printMatrixList(coc.getClanMembersInfo());
-		System.out.println(coc.getWarInfo());
+		System.out.println(coc.getWarInfo().toString());
 	}
 
 
