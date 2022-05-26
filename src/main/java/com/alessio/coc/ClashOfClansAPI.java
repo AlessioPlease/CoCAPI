@@ -150,7 +150,7 @@ public class ClashOfClansAPI {
 	}
 
 	private ArrayList<Attack> orderAttacks(ArrayList<Attack> attacks) {
-		attacks.sort((a1, a2) -> a1.getOrder() > a2.getOrder() ? + 1 : - 1);
+		attacks.sort(Comparator.comparing(Attack::getOrder));
 		return attacks;
 	}
 
