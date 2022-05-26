@@ -27,7 +27,7 @@ public class War implements Serializable {
 		return preparationStartTime;
 	}
 
-	public void getPreparationStartTime(String preparationStartTime) {
+	public void setPreparationStartTime(String preparationStartTime) {
 		this.preparationStartTime = preparationStartTime;
 	}
 
