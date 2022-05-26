@@ -1,6 +1,8 @@
 package com.alessio.coc.models;
 
-public class Attack {
+import java.io.Serializable;
+
+public class Attack implements Serializable {
 
 	private Integer order;
 	private Integer opponentPosition;
@@ -32,7 +34,7 @@ public class Attack {
 
 	@Override
 	public String toString() {
-		return "Attack " + order + ": " +
+		return order + "\t" +
 				opponentPosition + "\t" +
 				attackStars + "\t" +
 				destructionPercentage + "%";

@@ -1,8 +1,9 @@
 package com.alessio.coc.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class WarMember {
+public class WarMember implements Serializable {
 
 	private String name;
 	private String tag;

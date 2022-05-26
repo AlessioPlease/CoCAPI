@@ -4,6 +4,7 @@
 
 src/main/resources/examples/
 ClanMembersInfo.txt
+WarInfo.txt
 src/main/java/com/alessio/coc/Constants.java
 
 ### Intellij ###
