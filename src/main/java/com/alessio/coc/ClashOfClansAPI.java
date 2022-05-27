@@ -21,19 +21,21 @@ import java.util.*;
 
 public class ClashOfClansAPI {
 
+	private final String clanTag;
 	private ArrayList<Member> clanMembersInfo;
 	private War warInfo;
 	private Instant lastClanMembersUpdate = Instant.parse("2000-01-01T10:15:30.00Z");
 	private Instant warInfoUpdate = Instant.parse("2000-01-01T10:15:30.00Z");
 
 
-	public ClashOfClansAPI() {
+	public ClashOfClansAPI(String clanTag) {
+		this.clanTag = clanTag;
 //		updateClanMembersInfo();
 //		updateWarInfo();
 	}
 
 	private String requestClanMembersInfo() {
-		String url = "https://api.clashofclans.com/v1/clans/%23" + Constants.getClanTag() + "/members";
+		String url = "https://api.clashofclans.com/v1/clans/%23" + clanTag + "/members";
 		String method = "GET";
 
 		return getResponse(Objects.requireNonNull(buildRequest(url, method)));
@@ -87,7 +89,7 @@ public class ClashOfClansAPI {
 	}
 
 	private String requestWarInfo() {
-		String url = "https://api.clashofclans.com/v1/clans/%23" + Constants.getClanTag() + "/currentwar";
+		String url = "https://api.clashofclans.com/v1/clans/%23" + clanTag + "/currentwar";
 		String method = "GET";
 
 		return getResponse(Objects.requireNonNull(buildRequest(url, method)));
