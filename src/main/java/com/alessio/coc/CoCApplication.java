@@ -28,9 +28,7 @@ public class CoCApplication {
 		boolean noWarMatched = true;
 
 		for (int i = 0; i < savedWars.size(); i++) {
-			System.out.println("one");
 			if (savedWars.get(i).getPreparationStartTime().equals(war.getPreparationStartTime())) {
-				System.out.println("it hit the spot! so now i'll replace the war");
 				savedWars.set(i, war);
 				noWarMatched = false;
 			}
