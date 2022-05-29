@@ -2,9 +2,9 @@ package com.alessio.coc;
 
 import com.alessio.coc.models.Member;
 import com.alessio.coc.models.War;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import java.util.ArrayList;
 
 @SpringBootApplication
@@ -15,14 +15,13 @@ public class CoCApplication {
 
 		ClashOfClansAPI coc = new ClashOfClansAPI(new Constants());
 		ArrayList<Member> clanMembersInfo = File.readClanMembersInfoFromFile();
-		ArrayList<War> wars = File.readWarInfoFromFile();
+		ArrayList<War> wars = File.readWarsInfoFromFile();
 
-		fetchAndSaveWarInfo(coc);
+		clanMembersInfo = fetchAndSaveClanMembersInfo(coc);
+		wars = fetchAndSaveWarInfo(coc);
 
 		System.out.println(wars);
 	}
-
-
 
 	private static void incorporateNewWar(ArrayList<War> savedWars, War war) {
 		boolean noWarMatched = true;
@@ -44,12 +43,12 @@ public class CoCApplication {
 		return coc.getClanMembersInfo();
 	}
 
-	private static War fetchAndSaveWarInfo(ClashOfClansAPI coc) {
-		ArrayList<War> wars = File.readWarInfoFromFile();
+	private static ArrayList<War> fetchAndSaveWarInfo(ClashOfClansAPI coc) {
+		ArrayList<War> wars = File.readWarsInfoFromFile();
 		coc.updateWarInfo();
 		incorporateNewWar(wars, coc.getWarInfo());
-		File.saveWarInfoToFile(wars);
-		return coc.getWarInfo();
+		File.saveWarsInfoToFile(wars);
+		return wars;
 	}
 
 	private static void printMatrixList(ArrayList<Member> infos) {

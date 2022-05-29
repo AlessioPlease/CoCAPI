@@ -25,7 +25,7 @@ public class File {
 		}
 	}
 
-	public static void saveWarInfoToFile(ArrayList<War> data) {
+	public static void saveWarsInfoToFile(ArrayList<War> data) {
 		String fileName = "WarInfo.txt";
 		try {
 			FileOutputStream fos = new FileOutputStream(fileName);
@@ -61,7 +61,7 @@ public class File {
 		}
 	}
 
-	public static ArrayList<War> readWarInfoFromFile() {
+	public static ArrayList<War> readWarsInfoFromFile() {
 		String fileName = "WarInfo.txt";
 		if (fileDoesNotExist(fileName)) {
 			throw new NullPointerException("No file was found for " + fileName + ". It must be created first!");
