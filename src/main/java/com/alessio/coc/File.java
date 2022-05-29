@@ -1,6 +1,6 @@
 package com.alessio.coc;
 
-import com.alessio.coc.models.Member;
+import com.alessio.coc.models.Clan;
 import com.alessio.coc.models.War;
 
 import org.apache.commons.io.IOUtils;
@@ -12,7 +12,7 @@ public class File {
 
 	private File() {}
 
-	public static void saveClanMembersInfoToFile(ArrayList<Member> data) {
+	public static void saveClanInfoToFile(Clan data) {
 		String fileName = "ClanMembersInfo.txt";
 		try {
 			FileOutputStream fos = new FileOutputStream(fileName);
@@ -38,7 +38,7 @@ public class File {
 		}
 	}
 
-	public static ArrayList<Member> readClanMembersInfoFromFile() {
+	public static Clan readClanInfoFromFile() {
 		String fileName = "ClanMembersInfo.txt";
 		if (fileDoesNotExist(fileName)) {
 			throw new NullPointerException("No file was found for " + fileName + ". It must be created first!");
@@ -47,17 +47,17 @@ public class File {
 			FileInputStream fis = new FileInputStream(fileName);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 
-			ArrayList<Member> data = (ArrayList<Member>) ois.readObject();
+			Clan data = (Clan) ois.readObject();
 			ois.close();
 			return data;
 		} catch (IOException e) {
 			System.out.println("Something went wrong while trying to read clan data from file (IOException)");
 			e.printStackTrace();
-			return new ArrayList<>();
+			return new Clan(new ArrayList<>());
 		} catch (ClassNotFoundException e) {
 			System.out.println("Something went wrong while trying to read clan data from file (ClassNotFoundException)");
 			e.printStackTrace();
-			return new ArrayList<>();
+			return new Clan(new ArrayList<>());
 		}
 	}
 

@@ -1,9 +1,6 @@
 package com.alessio.coc;
 
-import com.alessio.coc.models.Attack;
-import com.alessio.coc.models.Member;
-import com.alessio.coc.models.War;
-import com.alessio.coc.models.WarMember;
+import com.alessio.coc.models.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,27 +19,27 @@ import java.util.*;
 public class ClashOfClansAPI {
 
 	private final Constants constants;
-	private ArrayList<Member> clanMembersInfo;
+	private Clan clanInfo;
 	private War warInfo;
-	private Instant lastClanMembersUpdate = Instant.parse("2000-01-01T10:15:30.00Z");
+	private Instant lastClanInfoUpdate = Instant.parse("2000-01-01T10:15:30.00Z");
 	private Instant warInfoUpdate = Instant.parse("2000-01-01T10:15:30.00Z");
 
 
 	public ClashOfClansAPI(Constants constants) {
 		this.constants = constants;
-//		updateClanMembersInfo();
+//		updateClanInfo();
 //		updateWarInfo();
 	}
 
-	private String requestClanMembersInfo() {
+	private String requestClanInfo() {
 		String url = "https://api.clashofclans.com/v1/clans/%23" + constants.getClanTag() + "/members";
 		String method = "GET";
 
 		return getResponse(Objects.requireNonNull(buildRequest(url, method)));
 	}
 
-	public ArrayList<Member> extractClanMembersInfo(String response) {
-		ArrayList<Member> membersInfo = new ArrayList<>();
+	public Clan extractClanInfo(String response) {
+		ArrayList<Member> members = new ArrayList<>();
 		JSONObject json = new JSONObject(response);
 		JSONArray items = json.getJSONArray("items");
 
@@ -63,9 +60,9 @@ public class ClashOfClansAPI {
 					items.getJSONObject(i).getInt("clanRank"),
 					items.getJSONObject(i).getString("tag")
 			);
-			membersInfo.add(member);
+			members.add(member);
 		}
-		return membersInfo;
+		return new Clan(members);
 	}
 
 	private String requestOtherInfo(String dirtyTag) {
@@ -205,18 +202,18 @@ public class ClashOfClansAPI {
 		return timeElapsed.toMinutes() > constants.getUpdateInterval();
 	}
 
-	public ArrayList<Member> getClanMembersInfo() {
-		return this.clanMembersInfo;
+	public Clan getClanInfo() {
+		return this.clanInfo;
 	}
 
 	public War getWarInfo() {
 		return warInfo;
 	}
 
-	public void updateClanMembersInfo() {
-		if (updateIsOld(lastClanMembersUpdate)) {
-			this.clanMembersInfo = extractClanMembersInfo(requestClanMembersInfo());
-			lastClanMembersUpdate = Instant.now();
+	public void updateClanInfo() {
+		if (updateIsOld(lastClanInfoUpdate)) {
+			this.clanInfo = extractClanInfo(requestClanInfo());
+			lastClanInfoUpdate = Instant.now();
 		}
 	}
 

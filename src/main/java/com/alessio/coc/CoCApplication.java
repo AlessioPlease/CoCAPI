@@ -1,5 +1,6 @@
 package com.alessio.coc;
 
+import com.alessio.coc.models.Clan;
 import com.alessio.coc.models.Member;
 import com.alessio.coc.models.War;
 
@@ -14,10 +15,10 @@ public class CoCApplication {
 		SpringApplication.run(CoCApplication.class, args);
 
 		ClashOfClansAPI coc = new ClashOfClansAPI(new Constants());
-		ArrayList<Member> clanMembersInfo = File.readClanMembersInfoFromFile();
+		Clan clanInfo = File.readClanInfoFromFile();
 		ArrayList<War> wars = File.readWarsInfoFromFile();
 
-		clanMembersInfo = fetchAndSaveClanMembersInfo(coc);
+		clanInfo = fetchAndSaveClanMembersInfo(coc);
 		wars = fetchAndSaveWarInfo(coc);
 
 		System.out.println(wars);
@@ -37,10 +38,10 @@ public class CoCApplication {
 		}
 	}
 
-	private static ArrayList<Member> fetchAndSaveClanMembersInfo(ClashOfClansAPI coc) {
-		coc.updateClanMembersInfo();
-		File.saveClanMembersInfoToFile(coc.getClanMembersInfo());
-		return coc.getClanMembersInfo();
+	private static Clan fetchAndSaveClanMembersInfo(ClashOfClansAPI coc) {
+		coc.updateClanInfo();
+		File.saveClanInfoToFile(coc.getClanInfo());
+		return coc.getClanInfo();
 	}
 
 	private static ArrayList<War> fetchAndSaveWarInfo(ClashOfClansAPI coc) {
@@ -51,10 +52,18 @@ public class CoCApplication {
 		return wars;
 	}
 
-	private static void printMatrixList(ArrayList<Member> infos) {
-		for (Member row: infos) {
+	private static void printClanInfo(Clan clanInfo) {
+		ArrayList<Member> membersInfo = clanInfo.getMembers();
+
+		for (Member row: membersInfo) {
 			System.out.printf(row.toString() + "\n");
 		}
 	}
 
+	private static void printWarsInfo(ArrayList<War> warsInfo) {
+
+		for (War row: warsInfo) {
+
+		}
+	}
 }
