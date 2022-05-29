@@ -21,21 +21,21 @@ import java.util.*;
 
 public class ClashOfClansAPI {
 
-	private final String clanTag;
+	private final Constants constants;
 	private ArrayList<Member> clanMembersInfo;
 	private War warInfo;
 	private Instant lastClanMembersUpdate = Instant.parse("2000-01-01T10:15:30.00Z");
 	private Instant warInfoUpdate = Instant.parse("2000-01-01T10:15:30.00Z");
 
 
-	public ClashOfClansAPI(String clanTag) {
-		this.clanTag = clanTag;
+	public ClashOfClansAPI(Constants constants) {
+		this.constants = constants;
 //		updateClanMembersInfo();
 //		updateWarInfo();
 	}
 
 	private String requestClanMembersInfo() {
-		String url = "https://api.clashofclans.com/v1/clans/%23" + clanTag + "/members";
+		String url = "https://api.clashofclans.com/v1/clans/%23" + constants.getClanTag() + "/members";
 		String method = "GET";
 
 		return getResponse(Objects.requireNonNull(buildRequest(url, method)));
@@ -89,7 +89,7 @@ public class ClashOfClansAPI {
 	}
 
 	private String requestWarInfo() {
-		String url = "https://api.clashofclans.com/v1/clans/%23" + clanTag + "/currentwar";
+		String url = "https://api.clashofclans.com/v1/clans/%23" + constants.getClanTag() + "/currentwar";
 		String method = "GET";
 
 		return getResponse(Objects.requireNonNull(buildRequest(url, method)));
@@ -172,7 +172,7 @@ public class ClashOfClansAPI {
 			URL url = new URL(urlString);
 			HttpURLConnection req = (HttpURLConnection) url.openConnection();
 			req.setRequestMethod(method);
-			req.setRequestProperty("Authorization", Constants.getAuthToken());
+			req.setRequestProperty("Authorization", constants.getAuthToken());
 			return req;
 		} catch (IOException e) {
 			System.out.println("Something went wrong while building the request");
@@ -202,7 +202,7 @@ public class ClashOfClansAPI {
 	private boolean updateIsOld(Instant date) {
 		Duration timeElapsed = Duration.between(date, Instant.now());
 
-		return timeElapsed.toMinutes() > Constants.getUpdateInterval();
+		return timeElapsed.toMinutes() > constants.getUpdateInterval();
 	}
 
 	public ArrayList<Member> getClanMembersInfo() {

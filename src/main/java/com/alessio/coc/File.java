@@ -3,42 +3,38 @@ package com.alessio.coc;
 import com.alessio.coc.models.Member;
 import com.alessio.coc.models.War;
 
+import org.apache.commons.io.IOUtils;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class File {
 
 	private File() {}
 
-	public static boolean saveClanMembersInfoToFile(ArrayList<Member> data) {
+	public static void saveClanMembersInfoToFile(ArrayList<Member> data) {
 		String fileName = "ClanMembersInfo.txt";
 		try {
 			FileOutputStream fos = new FileOutputStream(fileName);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(data);
 			oos.close();
-
-			return true;
 		} catch (IOException e) {
 			System.out.println("Something went wrong while trying to save clan data to file");
 			e.printStackTrace();
-			return false;
 		}
 	}
 
-	public static boolean saveWarInfoToFile(ArrayList<War> data) {
+	public static void saveWarInfoToFile(ArrayList<War> data) {
 		String fileName = "WarInfo.txt";
 		try {
 			FileOutputStream fos = new FileOutputStream(fileName);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(data);
 			oos.close();
-
-			return true;
 		} catch (IOException e) {
 			System.out.println("Something went wrong while trying to save war data to file");
 			e.printStackTrace();
-			return false;
 		}
 	}
 
@@ -85,6 +81,17 @@ public class File {
 			System.out.println("Something went wrong while trying to read war data from file (ClassNotFoundException)");
 			e.printStackTrace();
 			return new ArrayList<>();
+		}
+	}
+
+	public static String readDataFromFile(String fileName) {
+
+		try(FileInputStream inputStream = new FileInputStream(fileName)) {
+			return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+		} catch (Exception e) {
+			System.out.println("Something went wrong while trying to read data from file");
+			e.printStackTrace();
+			return "";
 		}
 	}
 

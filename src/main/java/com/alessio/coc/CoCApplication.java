@@ -13,7 +13,7 @@ public class CoCApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CoCApplication.class, args);
 
-		ClashOfClansAPI coc = new ClashOfClansAPI(Constants.getClanTag());
+		ClashOfClansAPI coc = new ClashOfClansAPI(new Constants());
 		ArrayList<Member> clanMembersInfo = File.readClanMembersInfoFromFile();
 		ArrayList<War> wars = File.readWarInfoFromFile();
 
