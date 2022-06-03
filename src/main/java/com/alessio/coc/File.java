@@ -1,6 +1,7 @@
 package com.alessio.coc;
 
 import com.alessio.coc.models.Clan;
+import com.alessio.coc.models.Member;
 import com.alessio.coc.models.War;
 
 import org.apache.commons.io.IOUtils;
@@ -20,7 +21,7 @@ public class File {
 			oos.writeObject(data);
 			oos.close();
 		} catch (IOException e) {
-			System.out.println("Something went wrong while trying to save clan data to file");
+			System.out.println("Something went wrong while trying to save CLAN data to file");
 			e.printStackTrace();
 		}
 	}
@@ -33,7 +34,20 @@ public class File {
 			oos.writeObject(data);
 			oos.close();
 		} catch (IOException e) {
-			System.out.println("Something went wrong while trying to save war data to file");
+			System.out.println("Something went wrong while trying to save WAR data to file");
+			e.printStackTrace();
+		}
+	}
+
+	public static void saveMembersWhoLeftToFile(ArrayList<Member> data) {
+		String fileName = "Traitors.txt";
+		try {
+			FileOutputStream fos = new FileOutputStream(fileName);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(data);
+			oos.close();
+		} catch (IOException e) {
+			System.out.println("Something went wrong while trying to save TRAITORS data to file");
 			e.printStackTrace();
 		}
 	}
