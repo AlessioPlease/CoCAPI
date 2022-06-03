@@ -130,17 +130,7 @@ public class Member implements Serializable {
 
 	@Override
 	public String toString() {
-		return name + "\t" +
-				donated + "\t" +
-				received + "\t" +
-				attacksWon + "\t" +
-				th + "\t" +
-				warPreference + "\t" +
-				role + "\t" +
-				exp + "\t" +
-				trophies + "\t" +
-				warStars + "\t" +
-				clanRank + "\t" +
-				tag;
+		return String.format("%-16s %5d %5d %3d %2d %-3s %-8s %3d %4d %4d☆ #%2d %s",
+				name, donated, received, attacksWon, th, warPreference, role, exp, trophies, warStars, clanRank, tag);
 	}
 }
