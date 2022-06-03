@@ -34,9 +34,7 @@ public class Attack implements Serializable {
 
 	@Override
 	public String toString() {
-		return order + "\t" +
-				opponentPosition + "\t" +
-				attackStars + "\t" +
-				destructionPercentage + "%";
+		String ok = String.format("[%2d°: %3d %2d☆ %4.0f%s]", order, opponentPosition, attackStars, destructionPercentage, "%%");
+		return ok;
 	}
 }

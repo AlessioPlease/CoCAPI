@@ -35,11 +35,6 @@ public class WarMember implements Serializable {
 
 	@Override
 	public String toString() {
-		String attacksToString = attacks != null ? "\t" + attacks : "";
-
-		return "\n" + name + "\t\t" +
-				tag + "\t" +
-				warPosition +
-				attacksToString;
+		return String.format("%-16s %s\t #%-2d", name, tag, warPosition);
 	}
 }

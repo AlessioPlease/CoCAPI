@@ -1,8 +1,6 @@
 package com.alessio.coc;
 
-import com.alessio.coc.models.Clan;
-import com.alessio.coc.models.Member;
-import com.alessio.coc.models.War;
+import com.alessio.coc.models.*;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,10 +16,10 @@ public class CoCApplication {
 		Clan clanInfo = File.readClanInfoFromFile();
 		ArrayList<War> wars = File.readWarsInfoFromFile();
 
-		clanInfo = fetchAndSaveClanMembersInfo(coc);
-		wars = fetchAndSaveWarInfo(coc);
+//		clanInfo = fetchAndSaveClanMembersInfo(coc);
+//		wars = fetchAndSaveWarInfo(coc);
 
-		System.out.println(wars);
+		printWarsInfo(wars);
 	}
 
 	private static void incorporateNewWar(ArrayList<War> savedWars, War war) {
@@ -62,8 +60,18 @@ public class CoCApplication {
 
 	private static void printWarsInfo(ArrayList<War> warsInfo) {
 
-		for (War row: warsInfo) {
-
+		for (War warInfo: warsInfo) {
+			System.out.println(warInfo.toString());
+			System.out.println("##### ATTACCHI #####");
+			for (WarMember warMember: warInfo.getMembers()) {
+				System.out.printf(warMember.toString() + " ");
+				if (warMember.getAttacks() != null) {
+					for (Attack attack: warMember.getAttacks()) {
+						System.out.printf(attack.toString()/* + "%%]"*/);
+					}
+				}
+				System.out.println();
+			}
 		}
 	}
 }

@@ -86,7 +86,6 @@ public class War implements Serializable {
 				"Used attacks: " + usedAttacks + "\n" +
 				"Our stars: " + ourStars + "\n" +
 				"Opponent stars: " + opponentStars + "\n" +
-				"Destruction percentage: " + destructionPercentage + "\n" +
-				"Members: " + members.toString();
+				"Destruction percentage: " + destructionPercentage;
 	}
 }
