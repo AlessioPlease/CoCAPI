@@ -4,6 +4,7 @@ import com.alessio.coc.models.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class GUI {
 
@@ -42,16 +43,17 @@ public class GUI {
 		coc.updateClanInfo();
 		ArrayList<Member> membersWhoLeft = membersWhoLeft(coc.getClanInfo().getMembers());
 		if (membersWhoLeft != null) {
-			File.saveMembersWhoLeftToFile(membersWhoLeft);
+			ArrayList<War> performanceOfMembersWhoLeft = getWarPerformanceOfTheseMembers(membersWhoLeft);
+			File.addMembersWhoLeftToFile(performanceOfMembersWhoLeft);
 		}
-		//File.saveClanInfoToFile(coc.getClanInfo());
+		File.saveClanInfoToFile(coc.getClanInfo());
 		return coc.getClanInfo();
 	}
 
 	private ArrayList<War> fetchAndSaveWarInfo(ClashOfClansAPI coc) {
 		ArrayList<War> wars = File.readWarsInfoFromFile();
 		coc.updateWarInfo();
-		if (areThereNewMembers()) {
+		if (areThereNewMembers(coc.getWarInfo().getMembers())) {
 			 fetchAndSaveClanMembersInfo(coc);
 		}
 		incorporateNewWar(wars, coc.getWarInfo());
@@ -59,16 +61,44 @@ public class GUI {
 		return wars;
 	}
 
+	private ArrayList<War> getWarPerformanceOfTheseMembers(ArrayList<Member> membersWhoLeft) {
+		ArrayList<War> performanceInfo = new ArrayList<>();
+		ArrayList<War> wars = File.readWarsInfoFromFile();
+
+		for (Member member: membersWhoLeft) {
+			for (War war: wars) {
+				for (WarMember warMember: war.getMembers()) {
+					if (member.getTag().equals(warMember.getTag())) {
+						performanceInfo.add(new War(
+								war.getPreparationStartTime(),
+								0,
+								0,
+								0,
+								0,
+								0d,
+								new ArrayList<>(List.of(new WarMember(warMember.getName(), warMember.getTag(), warMember.getWarPosition(), warMember.getAttacks())))));
+					}
+				}
+			}
+		}
+		if (performanceInfo.size() != 0) {
+			return performanceInfo;
+		} else {
+			return null;
+		}
+	}
+
 	private ArrayList<Member> membersWhoLeft(ArrayList<Member> newMembersInfo) {
 		ArrayList<Member> membersWhoLeft = new ArrayList<>();
 		HashSet<String> newMembersTags = new HashSet<>();
 		HashSet<String> oldMembersTags = new HashSet<>();
-		Clan clanInfo = File.readClanInfoFromFile();
+		ArrayList<Member> oldMembersInfo = File.readClanInfoFromFile().getMembers();
 
+		// Fill HashSets
 		for (Member newMember: newMembersInfo) {
 			newMembersTags.add(newMember.getTag());
 		}
-		for (Member oldMember: clanInfo.getMembers()) {
+		for (Member oldMember: oldMembersInfo) {
 			oldMembersTags.add(oldMember.getTag());
 		}
 
@@ -76,7 +106,8 @@ public class GUI {
 			return null;
 		} else {
 			oldMembersTags.removeAll(newMembersTags);		// oldMembersTags now only contains members who are not in the clan anymore
-			for (Member oldMember: clanInfo.getMembers()) {
+			System.out.println("These members left or were kicked out:");
+			for (Member oldMember: oldMembersInfo) {
 				if (oldMembersTags.contains(oldMember.getTag())) {
 					System.out.println(oldMember);
 					membersWhoLeft.add(oldMember);
@@ -86,8 +117,20 @@ public class GUI {
 		}
 	}
 
-	private Boolean areThereNewMembers() {
-		return true;
+	private Boolean areThereNewMembers(ArrayList<WarMember> newMembersInfo) {
+		ArrayList<Member> oldMembersInfo = File.readClanInfoFromFile().getMembers();
+		HashSet<String> newMembersTags = new HashSet<>();
+		HashSet<String> oldMembersTags = new HashSet<>();
+
+		// Fill HashSets
+		for (WarMember newMember: newMembersInfo) {
+			newMembersTags.add(newMember.getTag());
+		}
+		for (Member oldMember: oldMembersInfo) {
+			oldMembersTags.add(oldMember.getTag());
+		}
+
+		return !newMembersTags.equals(oldMembersTags);
 	}
 
 	private void printClanInfo(Clan clanInfo) {

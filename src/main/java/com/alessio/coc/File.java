@@ -39,8 +39,14 @@ public class File {
 		}
 	}
 
-	public static void saveMembersWhoLeftToFile(ArrayList<Member> data) {
-		String fileName = "Traitors.txt";
+	public static void addMembersWhoLeftToFile(ArrayList<War> data) {
+		ArrayList<War> oldData = File.readMembersWhoLeftFromFile();
+		oldData.addAll(data);
+		File.saveMembersWhoLeftToFile(oldData);
+	}
+
+	private static void saveMembersWhoLeftToFile(ArrayList<War> data) {
+		String fileName = "MembersWhoLeft.txt";
 		try {
 			FileOutputStream fos = new FileOutputStream(fileName);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -93,6 +99,29 @@ public class File {
 			return new ArrayList<>();
 		} catch (ClassNotFoundException e) {
 			System.out.println("Something went wrong while trying to read war data from file (ClassNotFoundException)");
+			e.printStackTrace();
+			return new ArrayList<>();
+		}
+	}
+
+	public static ArrayList<War> readMembersWhoLeftFromFile() {
+		String fileName = "MembersWhoLeft.txt";
+		if (fileDoesNotExist(fileName)) {
+			throw new NullPointerException("No file was found for " + fileName + ". It must be created first!");
+		}
+		try {
+			FileInputStream fis = new FileInputStream(fileName);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+
+			ArrayList<War> data = (ArrayList<War>) ois.readObject();
+			ois.close();
+			return data;
+		} catch (IOException e) {
+			System.out.println("Something went wrong while trying to read data of members who left from file (IOException)");
+			e.printStackTrace();
+			return new ArrayList<>();
+		} catch (ClassNotFoundException e) {
+			System.out.println("Something went wrong while trying to read data of members who left from file (ClassNotFoundException)");
 			e.printStackTrace();
 			return new ArrayList<>();
 		}
