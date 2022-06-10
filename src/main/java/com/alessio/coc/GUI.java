@@ -109,7 +109,7 @@ public class GUI {
 			System.out.println("These members left or were kicked out:");
 			for (Member oldMember: oldMembersInfo) {
 				if (oldMembersTags.contains(oldMember.getTag())) {
-					System.out.println(oldMember);
+					System.out.println(oldMember.getName());
 					membersWhoLeft.add(oldMember);
 				}
 			}

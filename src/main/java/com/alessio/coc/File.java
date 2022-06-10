@@ -53,7 +53,7 @@ public class File {
 			oos.writeObject(data);
 			oos.close();
 		} catch (IOException e) {
-			System.out.println("Something went wrong while trying to save TRAITORS data to file");
+			System.out.println("Something went wrong while trying to save data of members who left to file");
 			e.printStackTrace();
 		}
 	}
