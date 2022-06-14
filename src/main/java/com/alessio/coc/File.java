@@ -1,7 +1,6 @@
 package com.alessio.coc;
 
 import com.alessio.coc.models.Clan;
-import com.alessio.coc.models.Member;
 import com.alessio.coc.models.War;
 
 import org.apache.commons.io.IOUtils;
