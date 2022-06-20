@@ -16,8 +16,9 @@ public class GUI {
 	/**
 	 * Initializes the class {@code constants} object
 	 * with the constants parameter passed as argument.
+	 * Loads clan and war information from the saved files.
 	 *
-	 * @param constants constants object.
+	 * @param constants The {@code Constants} object.
 	 */
 	public GUI(Constants constants) {
 		this.constants = constants;
@@ -33,15 +34,15 @@ public class GUI {
 
 
 	/**
-	 * Updates information about clan members, checks if there are members who
-	 * left (or were kicked out) and saves the past wars' performance of these
-	 * members in a file.
+	 * Updates information about clan members, checks if there are members
+	 * who are not in the clan anymore from the last update
+	 * and saves the past wars' performance of these members in a file.
 	 * It then saves the information about clan members in another file.
 	 *
-	 * @param coc the {@code ClashOfClansAPI} object used to make
+	 * @param coc The {@code ClashOfClansAPI} object used to make
 	 *            HTTP requests.
 	 *
-	 * @return a {@code Clan} object containing information about the clan members.
+	 * @return A {@code Clan} object containing information about the clan members.
 	 */
 	private Clan fetchAndSaveClanMembersInfo(ClashOfClansAPI coc) {
 		coc.updateClanInfo();
@@ -55,16 +56,15 @@ public class GUI {
 	}
 
 	/**
-	 * Saves in a local variable information about the past wars.
 	 * Updates information about the ongoing war.
-	 * If there are new members in the current war, that are not present in che clan
-	 * members information, it proceeds to {@code fetchAndSaveClanMembersInfo()}.
+	 * Checks if there are new members in the current war that are not present in che clan
+	 * members information. If so it proceeds to {@code fetchAndSaveClanMembersInfo()}.
 	 * It finally adds the current war to the wars already saved in the file.
 	 *
-	 * @param coc the {@code ClashOfClansAPI} object used to make
+	 * @param coc The {@code ClashOfClansAPI} object used to make
 	 *            HTTP requests.
 	 *
-	 * @return an {@code ArrayList<War>} object containing information about
+	 * @return An {@code ArrayList<War>} object containing information about
 	 *         the ongoing war.
 	 */
 	private ArrayList<War> fetchAndSaveWarInfo(ClashOfClansAPI coc) {
@@ -83,8 +83,8 @@ public class GUI {
 	 * If it is present, the single war data is overwritten, otherwise it is added
 	 * at the end of the {@code savedWars} list.
 	 *
-	 * @param savedWars the {@code ArrayList<War>} object containing a list of war.
-	 * @param war the single {@code War} object to search for in the {@code ArrayList}
+	 * @param savedWars The {@code ArrayList<War>} object containing a list of war.
+	 * @param war The single {@code War} object to search for in the {@code ArrayList<War>}
 	 */
 	private void incorporateNewWar(ArrayList<War> savedWars, War war) {
 		boolean noWarMatched = true;
@@ -104,11 +104,11 @@ public class GUI {
 	 * Looks for the war performances, in all wars contained in the file,
 	 * for each member passed as argument.
 	 *
-	 * @param membersWhoLeft the {@code ArrayList<Member>} object containing
+	 * @param membersWhoLeft The {@code ArrayList<Member>} object containing
 	 *                       the list of members to return information of.
 	 *
-	 * @return an {@code ArrayList<War>} object containing war performance
-	 *         information about all the members passed as argument.
+	 * @return An {@code ArrayList<War>} object containing war performance
+	 *         information about all the members contained in the parameter.
 	 */
 	private ArrayList<War> getWarPerformanceOfTheseMembers(ArrayList<Member> membersWhoLeft) {
 		ArrayList<War> performanceInfo = new ArrayList<>();
@@ -141,14 +141,12 @@ public class GUI {
 	 * Compares the clan members information saved in the file with the list
 	 * of members passed as argument to check if there are members that
 	 * are not in the clan anymore.
-	 * It returns the list of members that are not in the clan anymore.
 	 *
-	 * @param newMembersInfo the {@code ArrayList<Member>} object containing
+	 * @param newMembersInfo The {@code ArrayList<Member>} object containing
 	 *                       the list of members to compare with the file.
 	 *
-	 * @return an {@code ArrayList<Member>} object containing the list of members
-	 *         that are present in the file and are NOT present in the list passed
-	 *         as argument.
+	 * @return An {@code ArrayList<Member>} object containing the list of members
+	 *         that are not in the clan anymore.
 	 */
 	private ArrayList<Member> membersWhoLeft(ArrayList<Member> newMembersInfo) {
 		ArrayList<Member> membersWhoLeft = new ArrayList<>();
@@ -183,10 +181,10 @@ public class GUI {
 	 * Compares the clan members information saved in the file with the list
 	 * of members passed as argument to check if there are new members in the clan.
 	 *
-	 * @param newMembersInfo the {@code ArrayList<Member>} object containing
+	 * @param newMembersInfo The {@code ArrayList<Member>} object containing
 	 *                       the list of members to compare with the file.
 	 *
-	 * @return a {@code boolean} variable returning {@code true} if the
+	 * @return A {@code boolean} variable returning {@code true} if the
 	 *         {@code ArrayList<WarMember>} object passed as argument
 	 *         contains new members compared to the list of members in
 	 *         the clan members information file.
@@ -211,7 +209,7 @@ public class GUI {
 	 * Prints the {@code Clan} object passed as argument
 	 * in an easily readable format.
 	 *
-	 * @param clanInfo the {@code Clan} object containing
+	 * @param clanInfo The {@code Clan} object containing
 	 *                 information about the clan members.
 	 */
 	private void printClanInfo(Clan clanInfo) {
@@ -226,8 +224,8 @@ public class GUI {
 	 * Prints the {@code ArrayList<War>} object passed as argument
 	 * in an easily readable format.
 	 *
-	 * @param warsInfo the {@code ArrayList<Member>} object containing
-	 *                 information about the ongoing war.
+	 * @param warsInfo The {@code ArrayList<Member>} object containing
+	 *                 information about all saved wars.
 	 */
 	private void printWarsInfo(ArrayList<War> warsInfo) {
 
