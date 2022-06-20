@@ -28,17 +28,17 @@ public class ClashOfClansAPI {
 	 * Initializes the class {@code constants} object
 	 * with the constants parameter passed as argument.
 	 *
-	 * @param constants constants object.
+	 * @param constants Constants object.
 	 */
 	public ClashOfClansAPI(Constants constants) {
 		this.constants = constants;
 	}
 
 	/**
-	 * Builds and executes an HTTP GET request for general information
+	 * Builds and executes an HTTP GET request asking for general information
 	 * about the clan and its members.
 	 *
-	 * @return a {@code String} object containing the response
+	 * @return A {@code String} object containing the response
 	 *         of the request in JSON format.
 	 */
 	private String requestClanInfo() {
@@ -49,16 +49,15 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Extracts general information about clan members from the string
-	 * passed as argument.
+	 * Extracts general information about clan members from the {@code String} passed as argument.
 	 * It also calls {@code extractOtherInfo(requestOtherInfo())} to get
-	 * additional information about clan members.
+	 * additional information about each clan member.
 	 * It puts all the data received in a {@code Clan} object.
 	 *
-	 * @param response the string containing the response
+	 * @param response The {@code String} object containing the response
 	 *                 of the request in JSON format.
 	 *
-	 * @return a {@code Clan} object containing information
+	 * @return A {@code Clan} object containing information
 	 *         about the clan members.
 	 */
 	public Clan extractClanInfo(String response) {
@@ -89,12 +88,13 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Builds and executes an HTTP GET request for additional information
+	 * Builds and executes an HTTP GET request asking for additional information
 	 * about one clan member.
 	 *
-	 * @param dirtyTag the tag of the player to get information of.
+	 * @param dirtyTag The tag of the player to get information of.
+	 *                 This tag still contains the hashtag.
 	 *
-	 * @return a {@code String} object containing the response
+	 * @return A {@code String} object containing the response
 	 *         of the request in JSON format.
 	 */
 	private String requestOtherInfo(String dirtyTag) {
@@ -106,13 +106,13 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Extracts additional information about a clan member from the string
-	 * passed as argument and puts it in a {@code HashMap<String, String>} object.
+	 * Extracts additional information about a clan member from the response
+	 * passed as argument and puts it in an {@code HashMap<String, String>} object.
 	 *
-	 * @param response the string containing the response
+	 * @param response The {@code String} object containing the response
 	 *                 of the request in JSON format.
 	 *
-	 * @return a {@code HashMap<String, String>} object containing
+	 * @return An {@code HashMap<String, String>} object containing
 	 *         the additional information about the clan member.
 	 */
 	private HashMap<String, String> extractOtherInfo(String response) {
@@ -128,10 +128,10 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Builds and executes an HTTP GET request for information
+	 * Builds and executes an HTTP GET request asking for information
 	 * about the ongoing war.
 	 *
-	 * @return a {@code String} object containing the response
+	 * @return A {@code String} object containing the response
 	 *         of the request in JSON format.
 	 */
 	private String requestWarInfo() {
@@ -142,13 +142,13 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Extracts information about the ongoing war from the string
+	 * Extracts information about the ongoing war from the {@code String}
 	 * passed as argument and puts it in a {@code War} object.
 	 *
-	 * @param response the string containing the response
+	 * @param response The {@code String} object containing the response
 	 *                 of the request in JSON format.
 	 *
-	 * @return a {@code War} object containing information
+	 * @return A {@code War} object containing information
 	 *         about the ongoing war, that is:
 	 *         - general information about the war
 	 *         - performance of each member in war
@@ -195,16 +195,16 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Extracts information about the attacks of a player.
-	 * The information is contained in the {@code JSONArray} object.
+	 * Extracts information about the attacks of a single player.
+	 * The information is contained in the {@code JSONArray rawAttacks} parameter.
 	 *
-	 * @param rawAttacks the object containing an array of
+	 * @param rawAttacks The {@code JSONArray} object containing an array of
 	 *                   attacks in JSON format.
-	 * @param opponentsPositions the object mapping opponents
-	 *                           tags with their position in war.
+	 * @param opponentsPositions The {@code HashMap<String, String>} object
+	 *                           mapping opponents' tags with their position in war.
 	 *
-	 * @return an {@code ArrayList<Attack>} object containing information
-	 *         about the attacks of a war member.
+	 * @return An {@code ArrayList<Attack>} object containing information
+	 *         about the attacks of a single war member.
 	 */
 	private ArrayList<Attack> extractAttacks(JSONArray rawAttacks, HashMap<String, Integer> opponentsPositions) {
 		ArrayList<Attack> attacks = new ArrayList<>();
@@ -223,12 +223,12 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Orders attacks of a member by the Attack object's parameter {@code getOrder}.
+	 * Orders attacks of a member by the {@code Attack} object's parameter {@code getOrder}.
 	 *
-	 * @param attacks an {@code ArrayList<Attack>} object containing
+	 * @param attacks An {@code ArrayList<Attack>} object containing
 	 *                a list of attacks.
 	 *
-	 * @return an {@code ArrayList<Attack>} object containing the ordered
+	 * @return An {@code ArrayList<Attack>} object containing the ordered
 	 *         list of attacks.
 	 */
 	private ArrayList<Attack> orderAttacks(ArrayList<Attack> attacks) {
@@ -237,14 +237,14 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Extracts information about opponents from the parameter and Maps each
+	 * Extracts information about opponents from the parameter and maps each
 	 * opponent tag with their position in war.
 	 *
-	 * @param opponentMembers an {@code JSONArray} object containing
+	 * @param opponentMembers An {@code JSONArray} object containing
 	 *                        an array of opponents in JSON format.
 	 *
-	 * @return a {@code HashMap<String, Integer>} object mapping opponents
-	 *         tags with their position in war.
+	 * @return An {@code HashMap<String, Integer>} object mapping
+	 *         opponents' tags with their position in war.
 	 */
 	private HashMap<String, Integer> mapOpponents(JSONArray opponentMembers) {
 		HashMap<String, Integer> opponentsInfo = new HashMap<>();
@@ -259,12 +259,12 @@ public class ClashOfClansAPI {
 	/**
 	 * Builds an HTTP request with the URL and method passed as parameters.
 	 *
-	 * @param urlString a {@code String} object containing
+	 * @param urlString A {@code String} object containing
 	 *                  the URL to use for the request.
-	 * @param method a {@code String} object containing
+	 * @param method A {@code String} object containing
 	 *               the method to use for the response.
 	 *
-	 * @return an {@code HttpURLConnection} object with the
+	 * @return An {@code HttpURLConnection} object with the
 	 *         specified parameters.
 	 */
 	private HttpURLConnection buildRequest(String urlString, String method) {
@@ -285,10 +285,10 @@ public class ClashOfClansAPI {
 	 * Executes the request received as parameter and reads its input stream.
 	 * It then puts the content in a {@code String} object.
 	 *
-	 * @param request an {@code HttpURLConnection} object containing
+	 * @param request An {@code HttpURLConnection} object containing
 	 *                the request.
 	 *
-	 * @return a {@code String} object with the response in a JSON format.
+	 * @return A {@code String} object containing the response in a JSON format.
 	 */
 	private String getResponse(HttpURLConnection request) {
 		StringBuilder content = new StringBuilder();
@@ -309,13 +309,12 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Checks if the {@code Date} received as parameter is
-	 * older than {@code constants.getUpdateInterval()}.
+	 * Compares the {@code Instant date} received as parameter with the current time
+	 * and checks if it is older than {@code constants.getUpdateInterval()}.
 	 *
-	 * @param date the date od the last update to compare
-	 *             with the current time.
+	 * @param date The time of the last update.
 	 *
-	 * @return the result of the comparison in a {@code boolean} variable.
+	 * @return The result of the comparison in a {@code boolean} variable.
 	 */
 	private boolean updateIsOld(Instant date) {
 		Duration timeElapsed = Duration.between(date, Instant.now());
@@ -324,7 +323,7 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Updates the clan information after checking that
+	 * Updates the clan information after making sure that
 	 * the last update is not too recent.
 	 * It then resets the last update time.
 	 */
@@ -336,7 +335,7 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Updates the war information after checking that
+	 * Updates the war information after making sure that
 	 * the last update is not too recent.
 	 * It then resets the last update time.
 	 */
