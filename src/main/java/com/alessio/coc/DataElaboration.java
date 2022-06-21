@@ -6,12 +6,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class GUI {
+public class DataElaboration {
 
-	private final Constants constants;
-	private Clan clanInfo;
-	private ArrayList<War> wars;
-
+	private final ClashOfClansAPI api;
 
 	/**
 	 * Initializes the class {@code constants} object
@@ -20,18 +17,9 @@ public class GUI {
 	 *
 	 * @param constants The {@code Constants} object.
 	 */
-	public GUI(Constants constants) {
-		this.constants = constants;
-
-		ClashOfClansAPI coc = new ClashOfClansAPI(constants);
-		clanInfo = File.readClanInfoFromFile();
-		wars = File.readWarsInfoFromFile();
-
-//		clanInfo = fetchAndSaveClanMembersInfo(coc);
-//		wars = fetchAndSaveWarInfo(coc);
-
+	public DataElaboration(ClashOfClansAPI api) {
+		this.api = api;
 	}
-
 
 	/**
 	 * Updates information about clan members, checks if there are members
@@ -44,7 +32,7 @@ public class GUI {
 	 *
 	 * @return A {@code Clan} object containing information about the clan members.
 	 */
-	private Clan fetchAndSaveClanMembersInfo(ClashOfClansAPI coc) {
+	public Clan fetchAndSaveClanMembersInfo(ClashOfClansAPI coc) {
 		coc.updateClanInfo();
 		ArrayList<Member> membersWhoLeft = membersWhoLeft(coc.getClanInfo().getMembers());
 		if (membersWhoLeft != null) {
@@ -67,7 +55,7 @@ public class GUI {
 	 * @return An {@code ArrayList<War>} object containing information about
 	 *         the ongoing war.
 	 */
-	private ArrayList<War> fetchAndSaveWarInfo(ClashOfClansAPI coc) {
+	public ArrayList<War> fetchAndSaveWarInfo(ClashOfClansAPI coc) {
 		ArrayList<War> wars = File.readWarsInfoFromFile();
 		coc.updateWarInfo();
 		if (areThereNewMembers(coc.getWarInfo().getMembers())) {
@@ -212,7 +200,7 @@ public class GUI {
 	 * @param clanInfo The {@code Clan} object containing
 	 *                 information about the clan members.
 	 */
-	private void printClanInfo(Clan clanInfo) {
+	public void printClanInfo(Clan clanInfo) {
 		ArrayList<Member> membersInfo = clanInfo.getMembers();
 
 		for (Member row: membersInfo) {
@@ -227,7 +215,7 @@ public class GUI {
 	 * @param warsInfo The {@code ArrayList<Member>} object containing
 	 *                 information about all saved wars.
 	 */
-	private void printWarsInfo(ArrayList<War> warsInfo) {
+	public void printWarsInfo(ArrayList<War> warsInfo) {
 
 		for (War warInfo: warsInfo) {
 			System.out.println(warInfo.toString());

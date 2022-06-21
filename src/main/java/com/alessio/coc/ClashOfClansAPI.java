@@ -60,7 +60,7 @@ public class ClashOfClansAPI {
 	 * @return A {@code Clan} object containing information
 	 *         about the clan members.
 	 */
-	public Clan extractClanInfo(String response) {
+	private Clan extractClanInfo(String response) {
 		ArrayList<Member> members = new ArrayList<>();
 		JSONObject json = new JSONObject(response);
 		JSONArray items = json.getJSONArray("items");
