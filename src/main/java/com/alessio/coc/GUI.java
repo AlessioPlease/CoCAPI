@@ -5,13 +5,13 @@ import com.alessio.coc.models.War;
 
 import java.util.ArrayList;
 
-public class ActualGUI {
+public class GUI {
 
 	private final DataElaboration dataElaboration;
 	private Clan clanInfo;
 	private ArrayList<War> wars;
 
-	public ActualGUI(Constants constants) {
+	public GUI(Constants constants) {
 		ClashOfClansAPI api = new ClashOfClansAPI(constants);
 		this.dataElaboration = new DataElaboration(api);
 

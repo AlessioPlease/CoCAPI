@@ -10,6 +10,6 @@ public class CoCApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CoCApplication.class, args);
 
-		ActualGUI actualGUI = new ActualGUI(new Constants());
+		GUI GUI = new GUI(new Constants());
 	}
 }
