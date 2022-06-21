@@ -11,11 +11,10 @@ public class DataElaboration {
 	private final ClashOfClansAPI api;
 
 	/**
-	 * Initializes the class {@code constants} object
-	 * with the constants parameter passed as argument.
-	 * Loads clan and war information from the saved files.
+	 * Initializes the class' {@code ClashOfClansAPI} object
+	 * with the {@code api} parameter passed as argument.
 	 *
-	 * @param constants The {@code Constants} object.
+	 * @param api The {@code ClashOfClansAPI} object.
 	 */
 	public DataElaboration(ClashOfClansAPI api) {
 		this.api = api;
@@ -27,12 +26,10 @@ public class DataElaboration {
 	 * and saves the past wars' performance of these members in a file.
 	 * It then saves the information about clan members in another file.
 	 *
-	 * @param coc The {@code ClashOfClansAPI} object used to make
-	 *            HTTP requests.
-	 *
 	 * @return A {@code Clan} object containing information about the clan members.
 	 */
-	public Clan fetchAndSaveClanMembersInfo(ClashOfClansAPI coc) {
+	public Clan fetchAndSaveClanMembersInfo() {
+		ClashOfClansAPI coc = this.api;
 		coc.updateClanInfo();
 		ArrayList<Member> membersWhoLeft = membersWhoLeft(coc.getClanInfo().getMembers());
 		if (membersWhoLeft != null) {
@@ -49,17 +46,15 @@ public class DataElaboration {
 	 * members information. If so it proceeds to {@code fetchAndSaveClanMembersInfo()}.
 	 * It finally adds the current war to the wars already saved in the file.
 	 *
-	 * @param coc The {@code ClashOfClansAPI} object used to make
-	 *            HTTP requests.
-	 *
 	 * @return An {@code ArrayList<War>} object containing information about
 	 *         the ongoing war.
 	 */
-	public ArrayList<War> fetchAndSaveWarInfo(ClashOfClansAPI coc) {
+	public ArrayList<War> fetchAndSaveWarInfo() {
+		ClashOfClansAPI coc = this.api;
 		ArrayList<War> wars = File.readWarsInfoFromFile();
 		coc.updateWarInfo();
 		if (areThereNewMembers(coc.getWarInfo().getMembers())) {
-			fetchAndSaveClanMembersInfo(coc);
+			fetchAndSaveClanMembersInfo();
 		}
 		incorporateNewWar(wars, coc.getWarInfo());
 		File.saveWarsInfoToFile(wars);
