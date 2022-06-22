@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class DataElaboration {
+public class Controller {
 
 	private final ClashOfClansAPI api;
 
@@ -16,7 +16,7 @@ public class DataElaboration {
 	 *
 	 * @param api The {@code ClashOfClansAPI} object.
 	 */
-	public DataElaboration(ClashOfClansAPI api) {
+	public Controller(ClashOfClansAPI api) {
 		this.api = api;
 	}
 
