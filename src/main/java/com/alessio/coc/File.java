@@ -8,6 +8,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+@SuppressWarnings("unchecked")
 public class File {
 
 	private File() {}
