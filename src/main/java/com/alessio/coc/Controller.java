@@ -5,10 +5,15 @@ import com.alessio.coc.models.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Controller {
 
 	private final ClashOfClansAPI api;
+	private Clan clanInfo = null;
+	private ArrayList<War> wars = null;
+
+	private MyFrame frame;
 
 	/**
 	 * Initializes the class' {@code ClashOfClansAPI} object
@@ -18,6 +23,12 @@ public class Controller {
 	 */
 	public Controller(ClashOfClansAPI api) {
 		this.api = api;
+		this.frame = new MyFrame(this);
+
+		this.clanInfo = File.readClanInfoFromFile();
+//		this.wars = File.readWarsInfoFromFile();
+//		clanInfo = this.dataElaboration.fetchAndSaveClanMembersInfo();
+//		wars = this.dataElaboration.fetchAndSaveWarInfo();
 	}
 
 	/**
@@ -186,6 +197,27 @@ public class Controller {
 		}
 
 		return !newMembersTags.equals(oldMembersTags);
+	}
+
+	public String searchMemberName(String name) {
+		if (clanInfo == null) {
+			return "";
+		}
+		ArrayList<String> matchingMembers = clanInfo.getMembers().stream()
+				.filter(member -> member.getName().contains(name))	// Filters based on the condition
+				.map(Member::getName)								// Gets the name for each member
+				.collect(Collectors.toCollection(ArrayList::new));	// Makes a list for the names
+
+		return arrayListToString(matchingMembers);
+	}
+
+	private String arrayListToString(ArrayList<String> list) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		stringBuilder.append("<html>");
+		list.forEach(string -> stringBuilder.append(string).append("<br/>"));
+		stringBuilder.append("</html>");
+		return stringBuilder.toString();
 	}
 
 	/**
