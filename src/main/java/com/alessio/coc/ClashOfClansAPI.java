@@ -216,7 +216,7 @@ public class ClashOfClansAPI {
 					rawAttack.getInt("order"),
 					opponentsPositions.get(rawAttack.getString("defenderTag")),
 					rawAttack.getInt("stars"),
-					rawAttack.getDouble("destructionPercentage"));
+					rawAttack.getInt("destructionPercentage"));
 			attacks.add(attack);
 		}
 		return attacks.size() > 1 ? orderAttacks(attacks) : attacks;
@@ -309,20 +309,6 @@ public class ClashOfClansAPI {
 	}
 
 	/**
-	 * Compares the {@code Instant date} received as parameter with the current time
-	 * and checks if it is older than {@code constants.getUpdateInterval()}.
-	 *
-	 * @param date The time of the last update.
-	 *
-	 * @return The result of the comparison in a {@code boolean} variable.
-	 */
-	private boolean updateIsOld(Instant date) {
-		Duration timeElapsed = Duration.between(date, Instant.now());
-
-		return timeElapsed.toMinutes() > constants.getUpdateInterval();
-	}
-
-	/**
 	 * Updates the clan information after making sure that
 	 * the last update is not too recent.
 	 * It then resets the last update time.
@@ -344,6 +330,20 @@ public class ClashOfClansAPI {
 			this.warInfo = extractWarInfo(requestWarInfo());
 			warInfoUpdate = Instant.now();
 		}
+	}
+
+	/**
+	 * Compares the {@code Instant date} received as parameter with the current time
+	 * and checks if it is older than {@code constants.getUpdateInterval()}.
+	 *
+	 * @param date The time of the last update.
+	 *
+	 * @return The result of the comparison in a {@code boolean} variable.
+	 */
+	private boolean updateIsOld(Instant date) {
+		Duration timeElapsed = Duration.between(date, Instant.now());
+
+		return timeElapsed.toMinutes() > constants.getUpdateInterval();
 	}
 
 	public Clan getClanInfo() {

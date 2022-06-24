@@ -23,12 +23,12 @@ public class Controller {
 	 */
 	public Controller(ClashOfClansAPI api) {
 		this.api = api;
-		this.frame = new MyFrame(this);
+//		this.frame = new MyFrame(this);
 
 		this.clanInfo = File.readClanInfoFromFile();
-//		this.wars = File.readWarsInfoFromFile();
-//		clanInfo = this.dataElaboration.fetchAndSaveClanMembersInfo();
-//		wars = this.dataElaboration.fetchAndSaveWarInfo();
+		this.wars = File.readWarsInfoFromFile();
+//		this.clanInfo = fetchAndSaveClanMembersInfo();
+//		this.wars = fetchAndSaveWarInfo();
 	}
 
 	/**
@@ -228,9 +228,7 @@ public class Controller {
 	 *                 information about the clan members.
 	 */
 	public void printClanInfo(Clan clanInfo) {
-		ArrayList<Member> membersInfo = clanInfo.getMembers();
-
-		for (Member row: membersInfo) {
+		for (Member row: clanInfo.getMembers()) {
 			System.out.printf(row.toString() + "\n");
 		}
 	}
@@ -243,7 +241,6 @@ public class Controller {
 	 *                 information about all saved wars.
 	 */
 	public void printWarsInfo(ArrayList<War> warsInfo) {
-
 		for (War warInfo: warsInfo) {
 			System.out.println(warInfo.toString());
 			System.out.println("##### ATTACCHI #####");

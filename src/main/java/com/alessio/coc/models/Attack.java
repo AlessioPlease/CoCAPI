@@ -7,9 +7,9 @@ public class Attack implements Serializable {
 	private Integer order;
 	private Integer opponentPosition;
 	private Integer attackStars;
-	private Double destructionPercentage;
+	private Integer destructionPercentage;
 
-	public Attack(Integer order, Integer opponentPosition, Integer attackStars, Double destructionPercentage) {
+	public Attack(Integer order, Integer opponentPosition, Integer attackStars, Integer destructionPercentage) {
 		this.order = order;
 		this.opponentPosition = opponentPosition;
 		this.attackStars = attackStars;
@@ -28,13 +28,12 @@ public class Attack implements Serializable {
 		return attackStars;
 	}
 
-	public Double getDestructionPercentage() {
+	public Integer getDestructionPercentage() {
 		return destructionPercentage;
 	}
 
 	@Override
 	public String toString() {
-		String ok = String.format("[%2d°: %3d %2d☆ %4.0f%s]", order, opponentPosition, attackStars, destructionPercentage, "%%");
-		return ok;
+		return String.format("[%2d°: %3d %2d☆ %4d%s]", order, opponentPosition, attackStars, destructionPercentage, "%%");
 	}
 }
