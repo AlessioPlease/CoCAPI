@@ -41,8 +41,12 @@ public class File {
 
 	public static void addMembersWhoLeftToFile(ArrayList<War> data) {
 		ArrayList<War> oldData = File.readMembersWhoLeftFromFile();
-		oldData.addAll(data);
-		File.saveMembersWhoLeftToFile(oldData);
+		if (oldData != null) {
+			oldData.addAll(data);
+			File.saveMembersWhoLeftToFile(oldData);
+		} else {
+			File.saveMembersWhoLeftToFile(data);
+		}
 	}
 
 	private static void saveMembersWhoLeftToFile(ArrayList<War> data) {
@@ -107,7 +111,8 @@ public class File {
 	public static ArrayList<War> readMembersWhoLeftFromFile() {
 		String fileName = "MembersWhoLeft.txt";
 		if (fileDoesNotExist(fileName)) {
-			throw new NullPointerException("No file was found for " + fileName + ". It must be created first!");
+			System.out.println("No file was found for " + fileName + ". It must be created first!");
+			return null;
 		}
 		try {
 			FileInputStream fis = new FileInputStream(fileName);
