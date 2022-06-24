@@ -36,7 +36,7 @@ public class MyFrame extends JFrame {
 	}
 
 	public void keyTrigger() {
-		setLabel(this.controller.searchMemberName(this.textField.getText()));
+		setLabel(this.controller.searchMemberByName(this.textField.getText()));
 	}
 
 	public void setLabel(String text) {

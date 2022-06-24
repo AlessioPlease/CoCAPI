@@ -199,19 +199,37 @@ public class Controller {
 		return !newMembersTags.equals(oldMembersTags);
 	}
 
-	public String searchMemberName(String name) {
+	/**
+	 * Searches for clan members using their names.
+	 * Returns a list of the members' names containing the {@code String} in the parameter.
+	 *
+	 * @param substring The {@code String} object containing the text input
+	 *                  from the user.
+	 *
+	 * @return A {@code String} object formatted to be easily readable in the
+	 *         {@code JLabel} it will be showing in.
+	 */
+	public String searchMemberByName(String substring) {
 		if (clanInfo == null) {
 			return "";
 		}
 		ArrayList<String> matchingMembers = clanInfo.getMembers().stream()
-				.filter(member -> member.getName().contains(name))	// Filters based on the condition
-				.map(Member::getName)								// Gets the name for each member
-				.collect(Collectors.toCollection(ArrayList::new));	// Makes a list for the names
+				.filter(member -> member.getName().contains(substring))	// Filters based on the condition
+				.map(Member::getName)									// Gets the name for each member
+				.collect(Collectors.toCollection(ArrayList::new));		// Makes a list for the names
 
-		return arrayListToString(matchingMembers);
+		return formatListForLabel(matchingMembers);
 	}
 
-	private String arrayListToString(ArrayList<String> list) {
+	/**
+	 * Puts the content of the {@code ArrayList<String>} parameter in a formatted {@code String}.
+	 *
+	 * @param list The {@code ArrayList<String>} object containing a list of names.
+	 *
+	 * @return A {@code String} object formatted to be easily readable in the
+	 *         {@code JLabel} it will be showing in.
+	 */
+	private String formatListForLabel(ArrayList<String> list) {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		stringBuilder.append("<html>");
