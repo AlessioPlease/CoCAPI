@@ -8,11 +8,15 @@ public class MyFrame extends JFrame {
 	private JTextField textField;
 	private JLabel label;
 
-	public MyFrame() throws HeadlessException {
+	Controller controller;
+
+	public MyFrame(Controller controller) {
 		super("CoCAPI");
 		setLayout(new GridLayout(2, 2, 0, 20));
 
+		this.controller = controller;
 		setupFrame();
+		setupListener();
 		pack();
 		setVisible(true);
 	}
@@ -24,5 +28,18 @@ public class MyFrame extends JFrame {
 		add(new JLabel());
 		this.label = new JLabel("");
 		add(this.label);
+	}
+
+	private void setupListener() {
+		TextFieldListener listener = new TextFieldListener(this);
+		this.textField.getDocument().addDocumentListener(listener);
+	}
+
+	public void keyTrigger() {
+		setLabel(this.controller.searchMemberName(this.textField.getText()));
+	}
+
+	public void setLabel(String text) {
+		this.label.setText(text);
 	}
 }
