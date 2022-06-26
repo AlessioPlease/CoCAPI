@@ -23,7 +23,7 @@ public class Controller {
 	 */
 	public Controller(ClashOfClansAPI api) {
 		this.api = api;
-//		this.frame = new MyFrame(this);
+		this.frame = new MyFrame(this);
 
 		this.clanInfo = File.readClanInfoFromFile();
 		this.wars = File.readWarsInfoFromFile();
