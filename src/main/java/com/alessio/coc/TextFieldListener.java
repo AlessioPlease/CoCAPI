@@ -5,20 +5,20 @@ import javax.swing.event.DocumentListener;
 
 public class TextFieldListener implements DocumentListener {
 
-	MyFrame frame;
+	View view;
 
-	public TextFieldListener(MyFrame frame) {
-		this.frame = frame;
+	public TextFieldListener(View view) {
+		this.view = view;
 	}
 
 	@Override
 	public void insertUpdate(DocumentEvent e) {
-		this.frame.keyTrigger();
+		this.view.keyTrigger();
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
-		this.frame.keyTrigger();
+		this.view.keyTrigger();
 	}
 
 	@Override

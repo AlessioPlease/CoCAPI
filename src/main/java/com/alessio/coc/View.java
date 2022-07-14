@@ -3,26 +3,26 @@ package com.alessio.coc;
 import javax.swing.*;
 import java.awt.*;
 
-public class MyFrame extends JFrame {
+public class View extends JFrame {
 
 	private JTextField textField;
 	private JLabel label;
 
 	Controller controller;
 
-	public MyFrame(Controller controller) {
+	public View(Controller controller) {
 		super("CoCAPI");
 		setLayout(new GridLayout(2, 2, 0, 20));
-
 		this.controller = controller;
-		setupFrame();
+
+		setupView();
 		setupListener();
 		pack();
-		setSize(800,900);
+		setSize(800, 900);
 		setVisible(true);
 	}
 
-	private void setupFrame() {
+	private void setupView() {
 		// Create and add a label and a text field
 		add(new JLabel("Name:"));
 		this.textField = new JTextField("", 15);

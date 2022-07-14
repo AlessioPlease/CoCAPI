@@ -12,7 +12,6 @@ public class CoCApplication {
 		builder.headless(false);
 		/*ConfigurableApplicationContext context = */builder.run(args);
 
-		ClashOfClansAPI api = new ClashOfClansAPI(new Constants());
-		new Controller(api);
+		new Controller(new ClashOfClansAPI(new Constants()));
 	}
 }

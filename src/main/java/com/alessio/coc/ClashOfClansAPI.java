@@ -25,7 +25,7 @@ public class ClashOfClansAPI {
 	private Instant warInfoUpdate = Instant.parse("2000-01-01T10:15:30.00Z");
 
 	/**
-	 * Initializes the class {@code constants} object
+	 * Initializes the class' {@code constants} object
 	 * with the constants parameter passed as argument.
 	 *
 	 * @param constants Constants object.
